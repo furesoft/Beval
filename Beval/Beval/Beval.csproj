@@ -11,8 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.6.0" />
     <PackageReference Include="Loyc.Syntax" Version="26.8.1" />
     <PackageReference Include="Pegasus" Version="4.1.0" />
+    <PackageReference Include="PipelineNet" Version="0.9.0" />
   </ItemGroup>
 
   <ItemGroup>
