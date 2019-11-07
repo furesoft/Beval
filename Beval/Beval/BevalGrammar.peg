@@ -17,6 +17,18 @@ booleanExpression<LNode> = "(" expr:booleanExpression ")" {expr}
 							/ f:identifier _ op:identifier _ s:booleanExpression {SyntaxNode.CreateExpression(f, op, s)}
 							/ id:identifier {id}
 
+functionStatement<LNode> -public = functionWithArgs / functionWithoutArgs
+functionWithoutArgs<LNode> = id:identifier _o "=" _o body:Block {SyntaxNode.CreateFunction(id, body)}
+functionWithInput<LNode> = id:identifier _o inputs:argList _o "=" _o body:Block {SyntaxNode.CreateFunction(id, inputs, body)}
+functionWithOutput<LNode> = id:identifier _o inputs:argList _o "," _o outputs:argList "=" _o body:Block {SyntaxNode.CreateFunction(id, inputs, outputs, body)}
+functionWithArgs<LNode> = functionWithInput / functionWithOutput
+
+Block<LNode> = lines:blockLine* {SyntaxNode.CreateBlock(lines)}
+blockLine<LNode> = booleanExpression
+
+argList<LNode> = f:identifier _ s:argList {SyntaxNode.Combine(f, s)}
+				 / id:identifier {id}
+
 stringCharacter  = !("'" / "\\" / eolChar) char:. { @char }
 
 whitespace = [\t ] / EOL
