@@ -12,6 +12,11 @@ namespace Beval
             return F.List(body);
         }
 
+        public static LNode CreateExpression(LNode f, LNode op, LNode s)
+        {
+            return F.Call(op, f, s);
+        }
+
         public static LNode CreateID(string id)
         {
             return F.Id(id);

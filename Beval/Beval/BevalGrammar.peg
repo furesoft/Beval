@@ -5,7 +5,7 @@
 
 @start CompilationUnit
 
-CompilationUnitLine<LNode> = includeStatement
+CompilationUnitLine<LNode> = includeStatement / booleanExpression
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
 identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9^!]*)) {SyntaxNode.CreateID(id)}
@@ -13,6 +13,9 @@ stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateStrin
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
 
+booleanExpression<LNode> = "(" expr:booleanExpression ")" {expr}
+							/ f:identifier _ op:identifier _ s:booleanExpression {SyntaxNode.CreateExpression(f, op, s)}
+							/ id:identifier {id}
 
 stringCharacter  = !("'" / "\\" / eolChar) char:. { @char }
 

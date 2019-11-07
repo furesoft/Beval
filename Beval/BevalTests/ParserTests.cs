@@ -15,6 +15,7 @@ namespace BevalTests
         [TestMethod]
         public void TestMethod1()
         {
+            var ast = _parser.Parse("a or (b or c)");
         }
 
         private BevalParser _parser;
