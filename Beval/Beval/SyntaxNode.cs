@@ -35,14 +35,14 @@ namespace Beval
             return F.List(v);
         }
 
+        public static LNode CreateBinaryExpression(LNode f, LNode op, LNode s)
+        {
+            return F.Call(op, f, s);
+        }
+
         public static LNode CreateBlock(IEnumerable<LNode> body)
         {
             return F.List(body);
-        }
-
-        public static LNode CreateExpression(LNode f, LNode op, LNode s)
-        {
-            return F.Call(op, f, s);
         }
 
         public static LNode CreateFunction(LNode name, LNode inputs, LNode outputs, LNode body)
@@ -73,6 +73,11 @@ namespace Beval
         public static LNode CreateString(string val)
         {
             return F.Literal(val);
+        }
+
+        public static LNode CreateUnaryExpression(LNode op, LNode arg)
+        {
+            return F.Call(op, arg);
         }
     }
 }

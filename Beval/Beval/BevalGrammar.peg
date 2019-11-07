@@ -5,7 +5,7 @@
 
 @start CompilationUnit
 
-CompilationUnitLine<LNode> = includeStatement / booleanExpression
+CompilationUnitLine<LNode> = includeStatement / binaryExpression
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
 identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9^!]*)) {SyntaxNode.CreateID(id)}
@@ -13,9 +13,11 @@ stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateStrin
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
 
-booleanExpression<LNode> = "(" expr:booleanExpression ")" {expr}
-							/ f:identifier _ op:identifier _ s:booleanExpression {SyntaxNode.CreateExpression(f, op, s)}
+binaryExpression<LNode> = "(" expr:binaryExpression ")" {expr}
+							/ f:identifier _ op:identifier _ s:binaryExpression {SyntaxNode.CreateBinaryExpression(f, op, s)}
+							/ unaryExpression
 							/ id:identifier {id}
+unaryExpression<LNode> -public = id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
 
 functionStatement<LNode> -public = functionWithArgs / functionWithoutArgs
 functionWithoutArgs<LNode> = id:identifier _o "=" _o body:Block {SyntaxNode.CreateFunction(id, body)}
@@ -24,7 +26,7 @@ functionWithOutput<LNode> = id:identifier _o inputs:argList _o "," _o outputs:ar
 functionWithArgs<LNode> = functionWithInput / functionWithOutput
 
 Block<LNode> = lines:blockLine* {SyntaxNode.CreateBlock(lines)}
-blockLine<LNode> = booleanExpression
+blockLine<LNode> = binaryExpression
 
 argList<LNode> = f:identifier _ s:argList {SyntaxNode.Combine(f, s)}
 				 / id:identifier {id}

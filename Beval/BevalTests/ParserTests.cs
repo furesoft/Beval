@@ -15,13 +15,19 @@ namespace BevalTests
         [TestMethod]
         public void TestFunctionDef()
         {
-            var ast = _parser.ParseFunctionStatement("nor a b = (a or b)");
+            var ast = _parser.ParseFunctionStatement("nor a b = not(a or b)");
         }
 
         [TestMethod]
         public void TestMethod1()
         {
             var ast = _parser.Parse("a or (b or c)");
+        }
+
+        [TestMethod]
+        public void TestUnary()
+        {
+            var ast = _parser.ParseUnaryExpression("not a");
         }
 
         private BevalParser _parser;
