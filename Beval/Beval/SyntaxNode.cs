@@ -35,6 +35,11 @@ namespace Beval
             return F.List(v);
         }
 
+        public static LNode CreateAlias(LNode aliasname, LNode value)
+        {
+            return F.Call(CodeSymbols.Alias, aliasname, value);
+        }
+
         public static LNode CreateBinaryExpression(LNode f, LNode op, LNode s)
         {
             return F.Call(op, f, s);

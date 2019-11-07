@@ -5,10 +5,10 @@
 
 @start CompilationUnit
 
-CompilationUnitLine<LNode> = includeStatement / binaryExpression
+CompilationUnitLine<LNode> = includeStatement / aliasStatement / binaryExpression
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
-identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9^!]*)) {SyntaxNode.CreateID(id)}
+identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9!^<>=]*)) {SyntaxNode.CreateID(id)}
 stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateString(val)}
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
@@ -17,7 +17,9 @@ binaryExpression<LNode> = "(" expr:binaryExpression ")" {expr}
 							/ f:identifier _ op:identifier _ s:binaryExpression {SyntaxNode.CreateBinaryExpression(f, op, s)}
 							/ unaryExpression
 							/ id:identifier {id}
-unaryExpression<LNode> -public = id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
+unaryExpression<LNode> = id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
+
+aliasStatement<LNode> -public = "alias" _ name:identifier _o "=" _o value:identifier {SyntaxNode.CreateAlias(name, value)}
 
 functionStatement<LNode> -public = functionWithArgs / functionWithoutArgs
 functionWithoutArgs<LNode> = id:identifier _o "=" _o body:Block {SyntaxNode.CreateFunction(id, body)}
