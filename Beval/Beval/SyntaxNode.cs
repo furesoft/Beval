@@ -24,7 +24,7 @@ namespace Beval
 
         public static LNode CreateString(string val)
         {
-            return F.String.WithValue(val);
+            return F.Literal(val);
         }
     }
 }
