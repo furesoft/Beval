@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace Beval
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            Console.WriteLine("Hello World!");
+        }
+    }
+}

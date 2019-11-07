@@ -1,0 +1,32 @@
+﻿@namespace Beval
+@classname BevalParser
+@using Loyc;
+@using Loyc.Syntax;
+
+@start CompilationUnit
+
+CompilationUnitLine<LNode> = includeStatement
+CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
+
+identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9^!]*)) {SyntaxNode.CreateID(id)}
+stringLiteral<LNode> = '"' val:("" simpleDoubleQuotedCharacter*) '"' {SyntaxNode.CreateString(val)}
+
+includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
+
+
+simpleDoubleQuotedCharacter  = !('"' / "\\" / eolChar) char:. { @char }
+
+whitespace = [\t ] / EOL
+_ -memoize = (whitespace / EOL / comment)*
+_o = _?
+
+comment -memoize = singleLineComment / multiLineComment
+
+singleLineComment -memoize -lexical = "//" (!eolChar .)*
+
+multiLineComment -lexical  = "/*" (!"*/" .)* "*/"
+
+eolChar = [\n\r\u2028\u2029]
+
+EOL = '\n' / '\r' / '\r\n'
+EOF = !.  / unexpected:&. #error{ "LLC0001: Unexpected '" + unexpected + "'" }

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beval", "Beval\Beval.csproj", "{EEEE5C1A-A620-43D2-AF44-E48CB7DF11B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BevalTests", "BevalTests\BevalTests.csproj", "{F1D45694-C4D4-4920-8683-9F53BF770ABB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEEE5C1A-A620-43D2-AF44-E48CB7DF11B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEE5C1A-A620-43D2-AF44-E48CB7DF11B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEE5C1A-A620-43D2-AF44-E48CB7DF11B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEE5C1A-A620-43D2-AF44-E48CB7DF11B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D45694-C4D4-4920-8683-9F53BF770ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D45694-C4D4-4920-8683-9F53BF770ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D45694-C4D4-4920-8683-9F53BF770ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D45694-C4D4-4920-8683-9F53BF770ABB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2417357-934E-44E9-91B2-A283EF53CD8E}
+	EndGlobalSection
+EndGlobal
