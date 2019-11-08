@@ -8,7 +8,7 @@
 CompilationUnitLine<LNode> = includeStatement / aliasStatement / binaryExpression
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
-identifier<LNode> -memoize = id:("" ([^_]*)) {SyntaxNode.CreateID(id)}
+identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9!^<>=]*)) {SyntaxNode.CreateID(id)}
 stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateString(val)}
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
