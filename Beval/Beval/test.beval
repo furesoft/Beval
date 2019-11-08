@@ -1,0 +1,3 @@
+﻿alias not = !
+
+nor a b = not(a or b)

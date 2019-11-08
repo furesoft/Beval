@@ -21,4 +21,10 @@
     <PegGrammar Include="BevalGrammar.peg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="test.beval">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
