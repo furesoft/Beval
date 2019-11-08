@@ -67,7 +67,12 @@ namespace Beval
 
         public static LNode CreateID(string id)
         {
-            return F.Id(id);
+            if (!string.IsNullOrEmpty(id))
+            {
+                return F.Id(id);
+            }
+
+            return LNode.Missing;
         }
 
         public static LNode CreateInclude(LNode filename)
