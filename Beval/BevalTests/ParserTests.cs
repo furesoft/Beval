@@ -13,9 +13,9 @@ namespace BevalTests
         }
 
         [TestMethod]
-        public void TestAlias()
+        public void TestBinary()
         {
-            var ast = _parser.ParseAliasStatement("alias not = !");
+            var ast = _parser.ParseBinaryExpression("a or b");
         }
 
         [TestMethod]
