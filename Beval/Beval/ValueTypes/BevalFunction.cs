@@ -14,5 +14,12 @@ namespace Beval.ValueTypes
             Outputs = new Dictionary<Symbol, BevalValue>();
             Scope = BevalScope.Create();
         }
+
+        public BevalValue Invoke(params BevalValue[] args)
+        {
+            //ToDo: implement invoke bevalfunction
+
+            return new BevalBool(false);
+        }
     }
 }
