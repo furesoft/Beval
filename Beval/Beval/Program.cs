@@ -20,6 +20,7 @@ namespace Beval
             context.Cmd = opts;
 
             pipeline.Add<ParsingMiddleware>();
+            pipeline.Add<EvalMiddleware>();
 
             pipeline.Execute(context);
         }
