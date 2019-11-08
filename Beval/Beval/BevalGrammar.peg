@@ -8,16 +8,15 @@
 CompilationUnitLine<LNode> = includeStatement / aliasStatement / binaryExpression
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
-identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9!^<>=]*)) {SyntaxNode.CreateID(id)}
+identifier<LNode> -memoize = id:("" ([^_]*)) {SyntaxNode.CreateID(id)}
 stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateString(val)}
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
 
-binaryExpression<LNode> = "(" expr:binaryExpression ")" {expr}
+binaryExpression<LNode> -memoize = "(" expr:binaryExpression ")" {expr}
 							/ f:identifier _ op:identifier _ s:binaryExpression {SyntaxNode.CreateBinaryExpression(f, op, s)}
-							/ unaryExpression
+							/ id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
 							/ id:identifier {id}
-unaryExpression<LNode> = id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
 
 aliasStatement<LNode> -public = "alias" _ name:identifier _o "=" _o value:identifier {SyntaxNode.CreateAlias(name, value)}
 
@@ -30,7 +29,7 @@ functionWithArgs<LNode> = functionWithInput / functionWithOutput
 Block<LNode> = lines:blockLine* {SyntaxNode.CreateBlock(lines)}
 blockLine<LNode> = binaryExpression
 
-argList<LNode> = f:identifier _ s:argList {SyntaxNode.Combine(f, s)}
+argList<LNode> -memoize = f:identifier _ s:argList {SyntaxNode.Combine(f, s)}
 				 / id:identifier {id}
 
 stringCharacter  = !("'" / "\\" / eolChar) char:. { @char }
