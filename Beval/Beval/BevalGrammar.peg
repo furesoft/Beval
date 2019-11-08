@@ -33,7 +33,7 @@ argList<LNode> -memoize = f:identifier _ s:argList {SyntaxNode.Combine(f, s)}
 				 / id:identifier {id}
 
 stringCharacter  = !("'" / "\\" / eolChar) char:. { @char }
-identifierChar =	[a-zA-Z_0-9!^<>=] / "^"
+identifierChar =	[a-zA-Z_0-9!<>=] / "^"
 
 whitespace = [\t ] / EOL
 _ -memoize = (whitespace / EOL / comment)*
