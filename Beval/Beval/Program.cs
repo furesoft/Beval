@@ -27,6 +27,7 @@ namespace Beval
                     manager.InstallPackage();
                 }
             }
+
             var pipeline = new Pipeline<PipelineContext>(new ActivatorMiddlewareResolver());
             var context = new PipelineContext();
             context.Cmd = opts;
