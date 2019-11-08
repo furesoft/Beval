@@ -5,20 +5,21 @@
 
 @start CompilationUnit
 
-CompilationUnitLine<LNode> = includeStatement / aliasStatement / binaryExpression
+CompilationUnitPart<LNode> = includeStatement / aliasStatement / binaryExpression
+CompilationUnitLine<LNode> = _o part:CompilationUnitPart _o ";" {part}
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
-identifier<LNode> -memoize = id:("" (identifierChar*)) {SyntaxNode.CreateID(id).WithRange(idStart.Location, idEnd.Location)}
-stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateString(val).WithRange(valStart.Location, valEnd.Location)}
+identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9]*)) {SyntaxNode.CreateID(id)}
+stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateString(val)}
 
-includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file).WithRange(fileStart.Location, fileEnd.Location)}
+includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
 
-binaryExpression<LNode> -memoize = "(" expr:binaryExpression ")" {expr}
+binaryExpression<LNode> -public -memoize = "(" expr:binaryExpression ")" {expr}
 							/ f:identifier _ op:identifier _ s:binaryExpression {SyntaxNode.CreateBinaryExpression(f, op, s)}
 							/ id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
 							/ id:identifier {id}
 
-aliasStatement<LNode> -public = "alias" _ name:identifier _o "=" _o value:identifier {SyntaxNode.CreateAlias(name, value)}
+aliasStatement<LNode> -public = _o "alias" _ name:identifier _o "=" _o value:identifier {SyntaxNode.CreateAlias(name, value)}
 
 functionStatement<LNode> -public = functionWithArgs / functionWithoutArgs
 functionWithoutArgs<LNode> = id:identifier _o "=" _o body:Block {SyntaxNode.CreateFunction(id, body)}
@@ -33,7 +34,7 @@ argList<LNode> -memoize = f:identifier _ s:argList {SyntaxNode.Combine(f, s)}
 				 / id:identifier {id}
 
 stringCharacter  = !("'" / "\\" / eolChar) char:. { @char }
-identifierChar =	[a-zA-Z_0-9!<>=] / "^"
+identifierChar =	[a-zA-Z_0-9] / "^" / "!" / "<" / ">" / "="
 
 whitespace = [\t ] / EOL
 _ -memoize = (whitespace / EOL / comment)*
