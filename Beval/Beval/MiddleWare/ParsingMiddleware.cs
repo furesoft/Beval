@@ -9,7 +9,8 @@ namespace Beval.MiddleWare
         public void Run(PipelineContext parameter, Action<PipelineContext> next)
         {
             var p = new BevalParser();
-            var ast = p.Parse(File.ReadAllText(parameter.Cmd.Input));
+            var content = File.ReadAllText(parameter.Cmd.Input);
+            var ast = p.Parse(content);
             parameter.AST = ast;
 
             next(parameter);
