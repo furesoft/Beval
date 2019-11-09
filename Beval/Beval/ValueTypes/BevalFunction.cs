@@ -7,15 +7,17 @@ namespace Beval.ValueTypes
     {
         public Symbol Name { get; set; }
         public Dictionary<Symbol, BevalValue> Outputs { get; set; }
+        public int Precedence { get; set; }
         public BevalScope Scope { get; set; }
 
-        public BevalFunction()
+        public BevalFunction(Symbol name)
         {
+            Name = name;
             Outputs = new Dictionary<Symbol, BevalValue>();
             Scope = BevalScope.Create();
         }
 
-        public virtual BevalValue Invoke(params BevalValue[] args)
+        public virtual BevalBool Invoke(params BevalBool[] args)
         {
             //ToDo: implement invoke bevalfunction
 
