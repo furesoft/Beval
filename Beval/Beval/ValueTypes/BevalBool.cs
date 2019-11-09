@@ -8,5 +8,10 @@
         {
             Value = v;
         }
+
+        public static implicit operator BevalBool(bool val)
+        {
+            return new BevalBool(val);
+        }
     }
 }
