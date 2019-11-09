@@ -89,5 +89,10 @@ namespace Beval
         {
             return F.Call(op, arg);
         }
+
+        public static LNode InBrackets(LNode node)
+        {
+            return F.InParens(node);
+        }
     }
 }

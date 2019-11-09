@@ -14,7 +14,7 @@ stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateStrin
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
 
-binaryExpression<LNode> -public -memoize = "(" expr:binaryExpression ")" {expr}
+binaryExpression<LNode> -public -memoize = "(" expr:binaryExpression ")" {SyntaxNode.InBrackets(expr)}
 							/ f:identifier _ op:identifier _ s:binaryExpression {SyntaxNode.CreateBinaryExpression(f, op, s)}
 							/ id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
 							/ id:identifier {id}
