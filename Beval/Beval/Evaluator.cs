@@ -29,6 +29,20 @@ namespace Beval
             FindAliases(ast);
         }
 
+        public bool InvokeFunc(string name, params BevalBool[] args)
+        {
+            var sym = (Symbol)name;
+
+            if (Functions.ContainsKey(sym))
+            {
+                return Functions[sym].Invoke(args);
+            }
+            else
+            {
+                throw new Exception("Function not found");
+            }
+        }
+
         private void FindAliases(LNode ast)
         {
             var lines = ast.Args;
