@@ -13,5 +13,10 @@
         {
             return new BevalBool(val);
         }
+
+        public static implicit operator bool(BevalBool b)
+        {
+            return b.Value;
+        }
     }
 }
