@@ -9,14 +9,17 @@ CompilationUnitPart<LNode> = includeStatement / aliasStatement / binaryExpressio
 CompilationUnitLine<LNode> = _o part:CompilationUnitPart _o ";" {part}
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
-identifier<LNode> -memoize = id:("" ([a-zA-Z_][a-zA-Z_0-9]*)) {SyntaxNode.CreateID(id)}
+identifier<LNode> -memoize = id:("" ([a-z_][a-zA-Z_0-9]*)) {SyntaxNode.CreateID(id)}
 stringLiteral<LNode> = "'" val:("" stringCharacter*) "'" {SyntaxNode.CreateString(val)}
+value<LNode> = val:(("true" / "1") {"true"} / ("false" / "0") {"false"}) {SyntaxNode.CreateValue(val)}
 
 includeStatement<LNode> = "include" _ file:stringLiteral _ ";" {SyntaxNode.CreateInclude(file)}
 
 binaryExpression<LNode> -public -memoize = "(" expr:binaryExpression ")" {SyntaxNode.InBrackets(expr)}
 							/ f:identifier _ op:identifier _ s:binaryExpression {SyntaxNode.CreateBinaryExpression(f, op, s)}
+							/ f:value _ op:identifier _ s:binaryExpression  {SyntaxNode.CreateBinaryExpression(f, op, s)}
 							/ id:identifier _o arg:binaryExpression {SyntaxNode.CreateUnaryExpression(id, arg)}
+							/ value
 							/ id:identifier {id}
 
 aliasStatement<LNode> -public = _o "alias" _ name:identifier _o "=" _o value:identifier {SyntaxNode.CreateAlias(name, value)}

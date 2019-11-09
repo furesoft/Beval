@@ -90,6 +90,11 @@ namespace Beval
             return F.Call(op, arg);
         }
 
+        public static LNode CreateValue(string src)
+        {
+            return F.Literal(bool.Parse(src));
+        }
+
         public static LNode InBrackets(LNode node)
         {
             return F.InParens(node);
