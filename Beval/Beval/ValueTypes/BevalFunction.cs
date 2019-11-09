@@ -15,7 +15,7 @@ namespace Beval.ValueTypes
             Scope = BevalScope.Create();
         }
 
-        public BevalValue Invoke(params BevalValue[] args)
+        public virtual BevalValue Invoke(params BevalValue[] args)
         {
             //ToDo: implement invoke bevalfunction
 
