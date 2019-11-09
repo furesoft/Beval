@@ -16,6 +16,7 @@
     <PackageReference Include="nUpdate.ProvideTAP" Version="3.5.0" />
     <PackageReference Include="Pegasus" Version="4.1.0" />
     <PackageReference Include="PipelineNet" Version="0.9.0" />
+    <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
   <ItemGroup>
