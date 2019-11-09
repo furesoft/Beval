@@ -14,7 +14,7 @@ namespace Beval.BuildIns
         {
             if (args.Length == 1)
             {
-                return args.First().Value ? false : true;
+                return !args.First();
             }
 
             return null;
