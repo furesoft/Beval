@@ -15,7 +15,7 @@ namespace BevalTests
         [TestMethod]
         public void TestBinary()
         {
-            var ast = _parser.ParseBinaryExpression("a or b");
+            var ast = _parser.ParseBinaryExpression("1 or b and b or 1");
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace BevalTests
         [TestMethod]
         public void TestMethod1()
         {
-            var ast = _parser.Parse("a or (b or c)");
+            var ast = _parser.Parse("true or (b or c)");
         }
 
         private BevalParser _parser;

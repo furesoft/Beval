@@ -5,7 +5,7 @@
 
 @start CompilationUnit
 
-CompilationUnitPart<LNode> = includeStatement / aliasStatement / binaryExpression
+CompilationUnitPart<LNode> = includeStatement / aliasStatement / functionStatement / binaryExpression
 CompilationUnitLine<LNode> = _o part:CompilationUnitPart _o ";" {part}
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
