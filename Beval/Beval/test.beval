@@ -1,4 +1,5 @@
 ﻿include core;
+include test2;
 
 alias hello = world;
 

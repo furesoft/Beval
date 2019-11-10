@@ -4,6 +4,7 @@ using Loyc;
 using Loyc.Syntax;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Beval
@@ -11,8 +12,13 @@ namespace Beval
     internal class Evaluator
     {
         public Dictionary<Symbol, Symbol> Aliases { get; set; } = new Dictionary<Symbol, Symbol>();
-
+        public string Filename { get; set; }
         public Dictionary<Symbol, BevalFunction> Functions { get; set; } = new Dictionary<Symbol, BevalFunction>();
+
+        public Evaluator(string filename)
+        {
+            Filename = filename;
+        }
 
         public void FindMetadata(LNode ast)
         {
@@ -70,9 +76,32 @@ namespace Beval
                     else
                     {
                         //ToDo: Parse file and add all stuff to current evaluator
+                        var parser = new BevalParser();
+                        var content = File.ReadAllText(FindFile(name.Name, Filename));
+                        var evaluator = new Evaluator(Filename);
+                        evaluator.FindMetadata(parser.Parse(content));
+
+                        foreach (var alias in evaluator.Aliases)
+                        {
+                            Aliases.Add(alias.Key, alias.Value);
+                        }
+                        foreach (var func in evaluator.Functions)
+                        {
+                            Functions.Add(func.Key, func.Value);
+                        }
                     }
                 }
             }
+        }
+
+        private string FindFile(Symbol name, string currentfilename)
+        {
+            var fi = new FileInfo(currentfilename);
+            var di = fi.Directory;
+
+            var files = di.GetFiles(name.Name + ".*");
+
+            return files.First().FullName;
         }
     }
 }
