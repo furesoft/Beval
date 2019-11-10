@@ -1,3 +1,5 @@
-﻿alias hello = world;
+﻿include core;
+
+alias hello = world;
 
 nor a b = not(a or b);
