@@ -14,17 +14,6 @@ namespace Beval
 
         public Dictionary<Symbol, BevalFunction> Functions { get; set; } = new Dictionary<Symbol, BevalFunction>();
 
-        public Evaluator()
-        {
-            Functions.Add((Symbol)"not", new NotFunction());
-            Functions.Add((Symbol)"and", new AndFunction());
-            Functions.Add((Symbol)"or", new OrFunction());
-            Functions.Add((Symbol)"xor", new XOrFunction());
-
-            Functions.Add((Symbol)"nand", new NandFunction());
-            Functions.Add((Symbol)"nor", new NOrFunction());
-        }
-
         public void FindMetadata(LNode ast)
         {
             FindAliases(ast);
@@ -53,6 +42,28 @@ namespace Beval
                 if (line.Name == CodeSymbols.Alias)
                 {
                     Aliases.Add(line.Args.First().Name, line.Args.ElementAt(1).Name);
+                }
+                if (line.Name == CodeSymbols.Import)
+                {
+                    var name = line.Args.First();
+
+                    if (name.Name == (Symbol)"core")
+                    {
+                        Functions.Add((Symbol)"not", new NotFunction());
+                        Functions.Add((Symbol)"and", new AndFunction());
+                        Functions.Add((Symbol)"or", new OrFunction());
+                        Functions.Add((Symbol)"xor", new XOrFunction());
+
+                        Functions.Add((Symbol)"nand", new NandFunction());
+                        Functions.Add((Symbol)"nor", new NOrFunction());
+
+                        //ToDo: add default aliases if core is imported
+                        Aliases.Add((Symbol)"not", (Symbol)"!");
+                    }
+                    else
+                    {
+                        //ToDo: Parse file and add all stuff to current evaluator
+                    }
                 }
             }
         }
