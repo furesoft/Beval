@@ -33,6 +33,11 @@ namespace Beval
             }
         }
 
+        private void AddAlias(string name, string value)
+        {
+            Aliases.Add((Symbol)name, (Symbol)value);
+        }
+
         private void FindAliases(LNode ast)
         {
             var lines = ast.Args;
@@ -58,7 +63,9 @@ namespace Beval
                         Functions.Add((Symbol)"nor", new NOrFunction());
 
                         //ToDo: add default aliases if core is imported
-                        Aliases.Add((Symbol)"not", (Symbol)"!");
+                        AddAlias("not", "!");
+                        AddAlias("or", "v");
+                        AddAlias("and", "^");
                     }
                     else
                     {
