@@ -23,41 +23,44 @@ namespace Beval
 
         public void FindMetadata(LNode ast)
         {
-            FindAliases(ast);
-        }
-
-        public bool InvokeFunc(string name, params BevalBool[] args)
-        {
-            var sym = (Symbol)name;
-
-            if (Functions.ContainsKey(sym))
-            {
-                return Functions[sym].Invoke(args);
-            }
-            else
-            {
-                throw new Exception("Function not found");
-            }
-        }
-
-        private void AddAlias(string name, string value)
-        {
-            Aliases.Add((Symbol)name, (Symbol)value);
-        }
-
-        private void FindAliases(LNode ast)
-        {
             var lines = ast.Args;
 
             foreach (var line in lines)
             {
+                var lineargs = line.Args;
+
                 if (line.Name == CodeSymbols.Alias)
                 {
-                    Aliases.Add(line.Args.First().Name, line.Args.ElementAt(1).Name);
+                    Aliases.Add(lineargs.First().Name, lineargs.ElementAt(1).Name);
                 }
-                if (line.Name == CodeSymbols.Import)
+                else if (line.Name == CodeSymbols.Fn)
                 {
-                    var name = line.Args.First();
+                    var outs = lineargs.ElementAt(0);
+                    var name = lineargs.ElementAt(1);
+                    var ins = lineargs.ElementAt(2);
+
+                    var func = new BevalFunction(name.Name);
+                    if (outs.Args.Any())
+                    {
+                        foreach (var outputs in outs.Args)
+                        {
+                            func.Outputs.Add(outputs.Name, new BevalBool(false));
+                        }
+                    }
+                    else if (outs.Name == CodeSymbols.Void)
+                    {
+                        //ToDo: when output is void add x to output and transform body to set x output
+                    }
+                    else
+                    {
+                        func.Outputs.Add(outs.Name, new BevalBool(false));
+                    }
+
+                    Functions.Add(name.Name, func);
+                }
+                else if (line.Name == CodeSymbols.Import)
+                {
+                    var name = lineargs.First();
 
                     if (name.Name == (Symbol)"core")
                     {
@@ -109,6 +112,25 @@ namespace Beval
                     }
                 }
             }
+        }
+
+        public bool InvokeFunc(string name, params BevalBool[] args)
+        {
+            var sym = (Symbol)name;
+
+            if (Functions.ContainsKey(sym))
+            {
+                return Functions[sym].Invoke(args);
+            }
+            else
+            {
+                throw new Exception("Function not found");
+            }
+        }
+
+        private void AddAlias(string name, string value)
+        {
+            Aliases.Add((Symbol)name, (Symbol)value);
         }
 
         private string FindFile(Symbol name, string currentfilename)

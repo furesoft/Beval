@@ -27,7 +27,7 @@ aliasStatement<LNode> -public = _o "alias" _ name:identifier _o "=" _o value:ide
 functionStatement<LNode> -public = functionWithArgs / functionWithoutArgs
 functionWithoutArgs<LNode> = id:identifier _o "=" _o body:Block {SyntaxNode.CreateFunction(id, body)}
 functionWithInput<LNode> = id:identifier _o inputs:argList _o "=" _o body:Block {SyntaxNode.CreateFunction(id, inputs, body)}
-functionWithOutput<LNode> = id:identifier _o inputs:argList _o "," _o outputs:argList "=" _o body:Block {SyntaxNode.CreateFunction(id, inputs, outputs, body)}
+functionWithOutput<LNode> = id:identifier _o inputs:argList _o "," _o outputs:argList _o "=" _o body:Block {SyntaxNode.CreateFunction(id, inputs, outputs, body)}
 functionWithArgs<LNode> = functionWithInput / functionWithOutput
 
 Block<LNode> = lines:blockLine* {SyntaxNode.CreateBlock(lines)}
