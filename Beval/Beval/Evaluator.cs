@@ -12,6 +12,7 @@ namespace Beval
     internal class Evaluator
     {
         public Dictionary<Symbol, Symbol> Aliases { get; set; } = new Dictionary<Symbol, Symbol>();
+        public List<string> Errors { get; set; } = new List<string>();
         public string Filename { get; set; }
         public Dictionary<Symbol, BevalFunction> Functions { get; set; } = new Dictionary<Symbol, BevalFunction>();
 
@@ -81,13 +82,29 @@ namespace Beval
                         var evaluator = new Evaluator(Filename);
                         evaluator.FindMetadata(parser.Parse(content));
 
+                        Errors.AddRange(evaluator.Errors);
+
                         foreach (var alias in evaluator.Aliases)
                         {
-                            Aliases.Add(alias.Key, alias.Value);
+                            if (!Aliases.ContainsKey(alias.Key))
+                            {
+                                Aliases.Add(alias.Key, alias.Value);
+                            }
+                            else
+                            {
+                                Errors.Add($"Alias '{alias.Key.Name}' already exists in File '{Filename}'");
+                            }
                         }
                         foreach (var func in evaluator.Functions)
                         {
-                            Functions.Add(func.Key, func.Value);
+                            if (!Functions.ContainsKey(func.Key))
+                            {
+                                Functions.Add(func.Key, func.Value);
+                            }
+                            else
+                            {
+                                Errors.Add($"Function '{func.Key.Name}' already exists in File '{Filename}'");
+                            }
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using PipelineNet.Middleware;
 using System;
+using System.Linq;
 
 namespace Beval.MiddleWare
 {
@@ -9,6 +10,14 @@ namespace Beval.MiddleWare
         {
             var eval = new Evaluator(parameter.Cmd.Input);
             eval.FindMetadata(parameter.AST);
+
+            if (eval.Errors.Any())
+            {
+                foreach (var err in eval.Errors)
+                {
+                    Console.WriteLine(err);
+                }
+            }
 
             next(parameter);
         }
