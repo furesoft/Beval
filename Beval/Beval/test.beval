@@ -1,1 +1,3 @@
-﻿nor a b = not(a or b);
+﻿alias hello = world;
+
+nor a b = not(a or b);

@@ -4,6 +4,7 @@ using Loyc;
 using Loyc.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Beval
 {
@@ -46,6 +47,14 @@ namespace Beval
         private void FindAliases(LNode ast)
         {
             var lines = ast.Args;
+
+            foreach (var line in lines)
+            {
+                if (line.Name == CodeSymbols.Alias)
+                {
+                    Aliases.Add(line.Args.First().Name, line.Args.ElementAt(1).Name);
+                }
+            }
         }
     }
 }
