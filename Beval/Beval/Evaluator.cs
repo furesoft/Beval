@@ -40,6 +40,8 @@ namespace Beval
                     var ins = lineargs.ElementAt(2);
 
                     var func = new BevalFunction(name.Name);
+                    func.Evaluator = this;
+
                     if (outs.Args.Any())
                     {
                         foreach (var outputs in outs.Args)

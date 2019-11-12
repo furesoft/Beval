@@ -5,6 +5,7 @@ namespace Beval.ValueTypes
 {
     internal class BevalFunction : BevalValue
     {
+        public Evaluator Evaluator { get; set; }
         public Symbol Name { get; set; }
         public Dictionary<Symbol, BevalValue> Outputs { get; set; }
         public int Precedence { get; set; }
