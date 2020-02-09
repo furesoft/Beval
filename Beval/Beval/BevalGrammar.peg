@@ -5,7 +5,7 @@
 
 @start CompilationUnit
 
-CompilationUnitPart<LNode> = includeStatement / aliasStatement / functionStatement / binaryExpression
+CompilationUnitPart<LNode> = includeStatement / aliasStatement / assignmentStatement / functionStatement / binaryExpression
 CompilationUnitLine<LNode> = _o part:CompilationUnitPart _o ";" {part}
 CompilationUnit<LNode> = _o line:CompilationUnitLine* _o EOF {SyntaxNode.CreateBlock(line)}
 
@@ -30,8 +30,8 @@ functionWithInput<LNode> = id:identifier _o inputs:argList _o "=>" _o body:Block
 functionWithOutput<LNode> = id:identifier _o inputs:argList _o "->" _o outputs:argList _o "=>" _o body:Block {SyntaxNode.CreateFunction(id, inputs, outputs, body)}
 functionWithArgs<LNode> = functionWithInput / functionWithOutput
 
-Block<LNode> = lines:blockLine* {SyntaxNode.CreateBlock(lines)}
-blockLine<LNode> = binaryExpression / assignmentStatement
+Block<LNode> = _o "{" _o lines:blockLine* _o "}" _o {SyntaxNode.CreateBlock(lines)}
+blockLine<LNode> = assignmentStatement / binaryExpression
 
 assignmentStatement<LNode> = name:identifier _o "=" _o val:binaryExpression {SyntaxNode.CreateAssignment(name, val)}
 

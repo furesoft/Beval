@@ -21,7 +21,7 @@ namespace BevalTests
         [TestMethod]
         public void TestFunctionDef()
         {
-            var ast = _parser.ParseFunctionStatement("nor a b = not(a or b)");
+            var ast = _parser.ParseFunctionStatement("nor a b -> x => { x = not(a or b); }");
         }
 
         [TestMethod]
