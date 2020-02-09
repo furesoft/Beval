@@ -52,6 +52,8 @@ namespace Beval
                     else if (outs.Name == CodeSymbols.Void)
                     {
                         //ToDo: when output is void add x to output and transform body to set x output
+                        func.Outputs.Add((Symbol)"x", new BevalBool(false));
+                        //ToDo: add Body to BevalFunc
                     }
                     else
                     {
