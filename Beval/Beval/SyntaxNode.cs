@@ -40,6 +40,11 @@ namespace Beval
             return F.Call(CodeSymbols.Alias, aliasname, value);
         }
 
+        public static LNode CreateAssignment(LNode id, LNode value)
+        {
+            return LNode.Call(CodeSymbols.Assign, LNode.List(id, value)).SetStyle(NodeStyle.Operator);
+        }
+
         public static LNode CreateBinaryExpression(LNode f, LNode op, LNode s)
         {
             return F.Call(op, f, s);
