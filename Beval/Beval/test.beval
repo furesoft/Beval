@@ -3,4 +3,4 @@ include test2;
 
 alias hello = world;
 
-sample a b , x y = not(a or b);
+sample a b -> x y => x = not(a or b);
